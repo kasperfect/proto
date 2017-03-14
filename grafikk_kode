@@ -1,0 +1,83 @@
+import pygame                                                                                                                    
+import random                                                                                                                    
+pygame.init()                                                                                                                    
+                                                                                                                                 
+bredde= 750                                                                                                                      
+hoyde= 750                                                                                                                       
+grid_x= int(bredde/4)                                                                                                            
+grid_y= int(hoyde/4)                                                                                                             
+                                                                                                                                 
+window = pygame.display.set_mode((bredde,hoyde))                                                                                 
+pygame.display.set_caption("Spill")                                                                                              
+                                                                                                                                 
+black = (0,0,0)                                                                                                                  
+white = (255,255,255)                                                                                                            
+                                                                                                                                 
+lyspare= pygame.image.load('lamp.png').convert_alpha()                                                                           
+resistor=pygame.image.load('resistor.png').convert_alpha()                                                                       
+                                                                                                                                 
+rand1 = (random.randint(0, 2))                                                                                                   
+rand2 = (random.randint(0, 2))                                                                                                   
+                                                                                                                                 
+def grid():                                                                                                                      
+    for i in range(4):                                                                                                           
+                                                                                                                                 
+        pygame.draw.line(window, black, (i*grid_x, 0), (i*grid_x, hoyde), 2)                                                     
+                                                                                                                                 
+        pygame.draw.line(window, black, (0, i*grid_y), (bredde, i*grid_y), 2)                                                    
+                                                                                                                                 
+    pygame.draw.line(window, black, (bredde-2, hoyde-2), (bredde-2, 0), 2) #tegner de to ytterkantene slik at de skal vises      
+    pygame.draw.line(window, black, (0, hoyde - 2), (bredde - 2, hoyde-2), 2)                                                    
+                                                                                                                                 
+                                                                                                                                 
+                                                                                                                                 
+def img1(bilde):                                                                                                                 
+                                                                                                                                 
+    liste = [(1, 0), (0, 2), (2, 3)]                                                                                             
+                                                                                                                                 
+    x = liste[rand1][0] * grid_x                                                                                                 
+    y = liste[rand1][1] * grid_y                                                                                                 
+                                                                                                                                 
+                                                                                                                                 
+    image_scale= pygame.transform.scale(bilde, (grid_x, grid_y))                                                                 
+    window.blit(image_scale, (x, y))                                                                                             
+                                                                                                                                 
+def img2(bilde):                                                                                                                 
+                                                                                                                                 
+    liste = [(1, 0), (0, 2), (2, 3)]                                                                                             
+                                                                                                                                 
+    x = liste[rand2][0] * grid_x                                                                                                 
+    y = liste[rand2][1] * grid_y                                                                                                 
+                                                                                                                                 
+    image_scale= pygame.transform.scale(bilde, (grid_x, grid_y))                                                                 
+    window.blit(image_scale, (x, y))                                                                                             
+                                                                                                                                 
+                                                                                                                                 
+                                                                                                                                 
+gameLoop=True                                                                                                                    
+while gameLoop:                                                                                                                  
+    for event in pygame.event.get():                                                                                             
+        if (event.type==pygame.QUIT):                                                                                            
+            gameLoop=False                                                                                                       
+    window.fill(white)                                                                                                           
+    if rand1 == rand2:                                                                                                           
+        if rand1==2:                                                                                                             
+            rand1 -=1                                                                                                            
+            img1(lyspare)                                                                                                        
+            img2(lyspare)                                                                                                        
+                                                                                                                                 
+        else:                                                                                                                    
+            rand1 += 1                                                                                                           
+                                                                                                                                 
+            img1(lyspare)                                                                                                        
+            img2(lyspare)                                                                                                        
+    else:                                                                                                                        
+        img1(lyspare)                                                                                                            
+        img2(lyspare)                                                                                                            
+                                                                                                                                 
+    grid()                                                                                                                       
+    pygame.display.flip()  # oppdaterer                                                                                          
+                                                                                                                                 
+pygame.quit()                                                                                                                    
+                                                                                                                                 
+                                                                                                                                 
