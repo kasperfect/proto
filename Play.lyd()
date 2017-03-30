@@ -1,0 +1,27 @@
+import pygame
+import time
+
+class Play:
+    #pygame.init()
+
+
+    def yey(self):
+        pygame.mixer.music.load('Robo_lyder_yey.wav')
+        pygame.mixer.music.play()
+        time.sleep(10)
+        print("YAY!")
+
+    def no(self):
+
+        pygame.mixer.music.load('Robo_lyder_no.wav')
+        pygame.mixer.music.play()
+        time.sleep(10)
+
+    def shock(self):
+        pygame.mixer.music.load('Robo_lyder_shock2.wav')
+        pygame.mixer.music.play()
+        time.sleep(10)
+
+    
+
+Play.yey()
