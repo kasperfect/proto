@@ -12,4 +12,9 @@ Oppgaver som må kodes:
 
 Retningslinjer for kode:
 - Hovedkode må gi ut en variabel som har regnet ut Volt verdien. 
-  - Da kan man bruke denne funksjonen og sjekke om den er over, under eller lik den gitte spennignen.   
+  - Da kan man bruke denne funksjonen og sjekke om den er over, under eller lik den gitte spennignen. 
+  
+  Passord raspberry:
+  
+  user: pi
+  passord: prototyp
