@@ -1,1 +1,189 @@
-# her kommer kode for øye til 7x5 display
+# prøvde meg på en kode til et 8x8 display, men viste seg å være tricky. Mye  bra fra denne siden, hvor mye av koden min er fra: 
+# https://circuitdigest.com/microcontroller-projects/control-8x8-led-matrix-with-raspberry-pi
+# oppsettet er herfra: http://www.instructables.com/id/8x8-LED-Matrix-for-RaspberryPi-and-3-programs/?ALLSTEPS
+# jeg klarer alikevel ikke å kontrollere matrisen slik at den sender rikitg bokstav, eller et øye som er vårt endelige mål
+# jeg legger ved koden så kan dere se på den
+
+# det jeg lærte var hvertfall at matriser fungerer slik at de hver lampe skrus av og på svært fort for å ikke kutte strømmen
+# til andre lyspærer, slik som blir vist i diargrammer på nettsidene. Det er derfor det kreves en ganske avansert loop,
+# som itereres så fort at menneskets øye ikke merker at pærerne skrus av og på
+
+# Det kan være å vurdere å kjøpe raspberry Pi led matrise, isteden for den vi har bestilt, da det virker som denne er mye mer
+# intuitiv enn den jeg brukte(tilsvarende den vi har kjøpt tror jeg, bare 8x8) 
+
+
+###########################################################################################
+
+import RPi.GPIO as IO  #calling for header file which helps in using GPIO’s of PI
+import time            #calling for time to provide delays in program
+
+IO.setwarnings(False)  #do not show any warnings
+x=1
+y=1
+IO.setmode (IO.BOARD)  #programming the GPIO by BCM pin numbers. (like PIN29 as'GPIO5')
+
+
+R1= 32
+R2= 15
+R3= 37
+R4= 40
+R5= 3
+R6= 35
+R7= 5
+R8= 31
+C1= 19
+C2= 7
+C3= 12
+C4= 36
+C5= 33
+C6= 38
+C7= 13
+C8= 11
+
+IO.setup(R1, IO.OUT)             # initialize GPIO Pins as outputs
+IO.setup(R2, IO.OUT)
+IO.setup(R3, IO.OUT)
+IO.setup(R4, IO.OUT)
+IO.setup(R5, IO.OUT)
+IO.setup(R6, IO.OUT)
+IO.setup(R7, IO.OUT)
+IO.setup(R8, IO.OUT)
+
+IO.setup(C1, IO.OUT)             # initialize GPIO Pins as outputs
+IO.setup(C2, IO.OUT)
+IO.setup(C3, IO.OUT)
+IO.setup(C4, IO.OUT)
+IO.setup(C5, IO.OUT)
+IO.setup(C6, IO.OUT)
+IO.setup(C7, IO.OUT)
+IO.setup(C8, IO.OUT)
+
+PORTVALUE = [128,64,32,16,8,4,2,1]
+
+delay= 0.01
+on= 1
+off=0
+
+#binære verdien te hver bokstav
+A=[0,0b01111111,0b11111111,0b11001100,0b11001100,0b11001100,0b11111111,0b01111111]
+B =[0,0b00111100,0b01111110,0b11011011,0b11011011,0b11011011,0b11111111,0b11111111]
+C= [0,0b11000011,0b11000011,0b11000011,0b11000011,0b11100111,0b01111110,0b00111100]
+D=[0,0b01111110,0b10111101,0b11000011,0b11000011,0b11000011,0b11111111,0b11111111]
+E=[0,0b11011011,0b11011011,0b11011011,0b11011011,0b11011011,0b11111111,0b11111111]
+F=[0,0b11011000,0b11011000,0b11011000,0b11011000,0b11011000,0b11111111,0b11111111]
+G=[0b00011111,0b11011111,0b11011000,0b11011011,0b11011011,0b11011011,0b11111111,0b11111111]
+H=[0,0b11111111,0b11111111,0b00011000,0b00011000,0b00011000,0b11111111,0b11111111]
+I=[0b11000011,0b11000011,0b11000011,0b11111111,0b11111111,0b11000011,0b11000011,0b11000011]
+J=[0b11000000,0b11000000,0b11000000,0b11111111,0b11111111,0b11000011,0b11001111,0b11001111]
+K=[0,0b11000011,0b11100111,0b01111110,0b00111100,0b00011000,0b11111111,0b11111111]
+L=[0b00000011,0b00000011,0b00000011,0b00000011,0b00000011,0b00000011,0b11111111,0b11111111]
+M=[0b11111111,0b11111111,0b01100000,0b01110000,0b01110000,0b01100000,0b11111111,0b11111111]
+N=[0b11111111,0b11111111,0b00011100,0b00111000,0b01110000,0b11100000,0b11111111,0b11111111]
+O=[0b01111110,0b11111111,0b11000011,0b11000011,0b11000011,0b11000011,0b11111111,0b01111110]
+P=[0,0b01110000,0b11111000,0b11001100,0b11001100,0b11001100,0b11111111,0b11111111]
+Q=[0b01111110,0b11111111,0b11001111,0b11011111,0b11011011,0b11000011,0b11111111,0b01111110]
+R=[0b01111001,0b11111011,0b11011111,0b11011110,0b11011100,0b11011000,0b11111111,0b11111111]
+S=[0b11001110,0b11011111,0b11011011,0b11011011,0b11011011,0b11011011,0b11111011,0b01110011]
+T=[0b11000000,0b11000000,0b11000000,0b11111111,0b11111111,0b11000000,0b11000000,0b11000000]
+U=[0b11111110,0b11111111,0b00000011,0b00000011,0b00000011,0b00000011,0b11111111,0b11111110]
+V=[0b11100000,0b11111100,0b00011110,0b00000011,0b00000011,0b00011110,0b11111100,0b11100000]
+W=[0b11111110,0b11111111,0b00000011,0b11111111,0b11111111,0b00000011,0b11111111,0b11111110]
+X=[0b01000010,0b11100111,0b01111110,0b00111100,0b00111100,0b01111110,0b11100111,0b01000010]
+Y=[0b01000000,0b11100000,0b01110000,0b00111111,0b00111111,0b01110000,0b11100000,0b01000000]
+Z=[0b11000011,0b11100011,0b11110011,0b11111011,0b11011111,0b11001111,0b11000111,0b11000011]
+
+def PORT(pin):  #assigning GPIO state by taking 'pin' value
+    if(pin&0x01 == 0x01):   #dette e Bitwise kode, litt tricky, se: https://en.wikipedia.org/wiki/Bitwise_operation
+        IO.output(R1,off)   #if bit0 of 8bit 'pin' is true pull PIN21 low
+    else:
+        IO.output(R1,on)   #if bit0 of 8bit 'pin' is false pull PIN21 high
+    if(pin&0x02 == 0x02):
+        IO.output(R2,off)   #if bit1 of 8bit 'pin' is true pull PIN20 low
+    else:
+        IO.output(R2,on)   #if bit1 of 8bit 'pin' is false pull PIN20 high
+    if(pin&0x04 == 0x04):
+        IO.output(R3,off)   #if bit2 of 8bit 'pin' is true pull PIN26 low
+    else:
+        IO.output(R3,on)   #if bit2 of 8bit 'pin' is false pull PIN26 high
+    if(pin&0x08 == 0x08):
+        IO.output(R4,off)
+    else:
+        IO.output(R4,on)
+    
+    if(pin&0x10 == 0x10):
+        IO.output(R5,off)
+    else:
+        IO.output(R5,on)
+    if(pin&0x20 == 0x20):
+        IO.output(R6,off)
+    else:
+        IO.output(R6,on)
+    if(pin&0x40 == 0x40):
+        IO.output(R7,off)
+    else:
+        IO.output(R7,on)
+    if(pin&0x80 == 0x80):
+        IO.output(R8,off)
+    else:
+        IO.output(R8,on)
+
+def PORTP(pinp):    #assigning GPIO logic for positive terminals by taking 'pinp' value
+    if(pinp&0x01 == 0x01): 
+        IO.output(C1,on)     #if bit0 of 8bit 'pinp' is true pull PIN12 high
+    else:
+        IO.output(C1,off)     #if bit0 of 8bit 'pinp' is false pull PIN12 low
+    if(pinp&0x02 == 0x02):
+        IO.output(C2,on)     #if bit1 of 8bit 'pinp' is true pull PIN22 high
+    else:
+        IO.output(C2,off)     #if bit1 of 8bit 'pinp' is false pull PIN22 low
+    if(pinp&0x04 == 0x04):
+        IO.output(C3,on)     #if bit2 of 8bit 'pinp' is true pull PIN27 high
+    else:
+        IO.output(C3,off)     #if bit2 of 8bit 'pinp' is false pull PIN27 low
+    if(pinp&0x08 == 0x08):
+        IO.output(C4,on)
+    else:
+        IO.output(C4,off)
+    if(pinp&0x10 == 0x10):
+        IO.output(C5,on)
+    else:
+        IO.output(C5,off)
+    if(pinp&0x20 == 0x20):
+        IO.output(C6,on)
+    else:
+        IO.output(C6,off)
+    if(pinp&0x40 == 0x40):
+        IO.output(C7,on)
+    else:
+        IO.output(C7,off)
+    if(pinp&0x80 == 0x80):
+        IO.output(C8,on) #if bit7 of 8bit 'pinp' is true pull PIN18 high
+    else:
+        IO.output(C8,off) #if bit7 of 8bit 'pinp' is false pull PIN18 low
+
+while 1:
+    for y in range (100):   #execute loop 100 times
+        for x in range (8): #execute the loop 8 times incrementing x value from zero to seven
+            pin  = PORTVALUE[x]  #assigning value to 'pin' for each digit
+            PORT(pin);  #mapping appropriate GPIO 
+            pinp= C[x]  #assigning character 'C' value to 'pinp' 
+            PORTP(pinp); #turning the GPIO to show character 'C'
+            time.sleep(delay) #wait for 0.5msec
+            print ("C")
+
+    for y in range (100):
+        for x in range (8):
+            pin  = PORTVALUE[x]
+            PORT(pin);
+            pinp= I[x]
+            PORTP(pinp);
+            print ("I")
+            time.sleep(delay)
+            
+    
+
+            
+    pinp= 0
+    PORTP(pinp);
+    time.sleep(1)     
+
