@@ -18,3 +18,6 @@ Retningslinjer for kode:
   
   user: pi
   passord: prototyp
+  
+  NB!
+  Led matrisen og 7 segment displayet har eg lånt av en på hackerspace, om må leveres tebake innen 1 juni.
