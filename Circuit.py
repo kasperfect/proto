@@ -50,7 +50,7 @@ class Solution:
         for i in range(len(self.resistors)):
             GPIO.setup(self.resistors[i], GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
-    def Is(self):
+    def Exist(self):
         """Objekt som sjekker om det er utført en løsning til problemet/oppgaven. Returnerer True hvis ja, False ellers"""
         paths = []
 
@@ -77,7 +77,7 @@ class Solution:
 
     def FindResistors(self):
         """Objekt som sjekker hvilke motstander som er koblet inn"""
-        resistors = [2000, 2000]
+        resistors = []
         for i in range (len(self.SB)):
             GPIO.output(self.SB[i], True)
 
@@ -92,7 +92,7 @@ class Solution:
 
 #########TESTKODE#########
 
-"""
+
 MagneterTest1 = Magnet([1])
 Løsning = Solution([1, 2], [3], [6, 5], [1000, 2000], 12)
 print(MagneterTest1.__doc__)
@@ -103,9 +103,9 @@ MagneterTest1.Drop()
 MagneterTest1.Off()
 
 print("Run Løsning.Is()")
-print(Løsning.Is())
+print(Løsning.Exist())
 print(Løsning.Find())
-"""
+
 
 
 
