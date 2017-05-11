@@ -1,3 +1,4 @@
+//Author = Thomas Kaland
 
 #include "pinlayout.h"
 #include "eyes.h"
