@@ -27,6 +27,7 @@ class Magnet:
         """Objekt som skrur paa alle magneter"""
         for i in range(len(self.ports)):
             GPIO.output(self.ports[i], True)
+            #"hva er dette"#
 
     def Off(self):
         """Objekt som skrur av alle magneter"""
